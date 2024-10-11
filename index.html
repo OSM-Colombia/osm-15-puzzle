@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>OSM 15 Puzzle</title>
+<title>OSM 15 Rompecabezas - Colombia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -215,19 +215,20 @@ a {
   <div id="board"></div>
   <div id="attrib">Map tiles © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></div>
   <div id="map-dialog" class="dialog">
-    <strong>Choose Map</strong>
+    <strong>Escoge un mapa</strong>
     <div id="map-list"></div>
   </div>
   <div id="help-dialog" class="dialog">
-    <strong>OSM 15 Puzzle</strong>
+    <strong>OSM 15 rompecabezas</strong>
     <p>
-      This is the classic <a href="https://en.wikipedia.org/wiki/15_puzzle">15 puzzle</a> game using standard OpenStreetMap tiles.<br>
-      Solve the puzzle by sliding the pieces to create the original map image.
+      Ests es el rompecabezas clásico <a href="https://en.wikipedia.org/wiki/15_puzzle">Juego del 15</a> usando teselas estándar de OpenStreetMap.<br>
+      Resuelve el rompecabezas al deslizar las piezas para crear la imagen del mapa original.
     </p>
-    <p>Move pieces by clicking or tapping on them.<br>If you have a keyboard, you may also use the arrow keys.</p>
+    <p>Mueve las piezas haciendo click o tocando sobre ellas.<br>
+      Si tienes un teclado, también puedes usar las teclas de flechas.</p>
     <p class="created">
-      Created by <a href="https://en.osm.town/@seav">Eugene Alvin Villar</a> •
-      <a href="https://github.com/seav/osm-15-puzzle">Source code in GitHub</a>
+      Creado por <a href="https://en.osm.town/@seav">Eugene Alvin Villar</a> •
+      <a href="https://github.com/seav/osm-15-puzzle">Código fuente en GitHub</a>
     </p>
   </div>
   <img id="close-button" class="button" src="icon-close.svg">
@@ -241,28 +242,28 @@ const TILE_SPACING   = 8;    // in pixels
 const ATTRIB_HEIGHT  = 24;   // in pixels
 const ICON_SIZE      = 100;  // in pixels
 const TILES_PER_SIDE = 4;
-
+<!-- Here, you can get the tile numbers -->
 const MAPS = {
-  world    : { z0:  2, x0:      0, y0:      0, space: 'SE', title: 'World' },
-  europe   : { z0:  5, x0:     15, y0:      9, space: 'NE', title: 'Europe' },
-  asean    : { z0:  5, x0:     24, y0:     13, space: 'NE', title: 'Southeast Asia' },
-  aegean   : { z0:  7, x0:     71, y0:     47, space: 'NE', title: 'Aegean Sea' },
-  ireland  : { z0:  8, x0:    120, y0:     81, space: 'NW', title: 'Ireland' },
-  korea    : { z0:  8, x0:    217, y0:     98, space: 'NE', title: 'South Korea' },
-  tasmania : { z0:  8, x0:    230, y0:    159, space: 'SW', title: 'Tasmania' },
-  lesotho  : { z0:  9, x0:    294, y0:    298, space: 'NW', title: 'Lesotho' },
-  hawaii   : { z0: 10, x0:     68, y0:    453, space: 'NE', title: 'Hawai‘i'},
-  rio      : { z0: 12, x0:   1554, y0:   2314, space: 'SE', title: 'Rio de Janeiro' },
-  frisco   : { z0: 13, x0:   1308, y0:   3165, space: 'SE', title: 'San Francisco' },
-  barcelona: { z0: 14, x0:   8289, y0:   6118, space: 'SE', title: 'Barcelona' },
-  london   : { z0: 14, x0:   8185, y0:   5447, space: 'SE', title: 'London' },
-  schiphol : { z0: 14, x0:   8407, y0:   5387, space: 'SE', title: 'Schiphol [AMS]' },
-  haneda   : { z0: 15, x0:  29105, y0:  12916, space: 'SW', title: 'Haneda [HND]' },
-  paris    : { z0: 15, x0:  16596, y0:  11271, space: 'NW', title: 'Paris' },
-  pentagon : { z0: 18, x0:  74960, y0: 100305, space: 'SE', title: 'Pentagon' },
-  moma     : { z0: 18, x0:  77212, y0:  98495, space: 'SE', title: 'MoMa New York' },
-  shibuya  : { z0: 19, x0: 465597, y0: 206491, space: 'NE', title: 'Shibuya Station' },
-  stpeters : { z0: 19, x0: 280279, y0: 194814, space: 'NE', title: 'St. Peter’s Basilica' },
+  colombia : { z0:  5, x0:      9, y0:      15, space: 'NE', title: 'Colombia' },
+  bogota   : { z0: 10, x0:    301, y0:    498, space: 'NE', title: 'Bogotá' },
+  medellin : { z0: 12, x0:   1188, y0:   1976, space: 'NE', title: 'Medellín' },
+  cali     : { z0: 12, x0:   1177, y0:   2008, space: 'NW', title: 'Cali' },
+  barranqu : { z0: 11, x0:    598, y0:    961, space: 'SW', title: 'Barranquilla' },
+  cartagen : { z0: 11, x0:    594, y0:    964, space: 'SE', title: 'Cartagena' },
+  cucuta   : { z0: 13, x0:   2446, y0:   3915, space: 'NE', title: 'Cúcuta' },
+  bucarama : { z0: 13, x0:   2432, y0:   3933, space: 'NE', title: 'Bucaramanga' },
+  pereira  : { z0: 13, x0:   2373, y0:   3686, space: 'SW', title: 'Pereira'},
+  santamar : { z0: 13, x0:   2407, y0:   3838, space: 'NW', title: 'Santa Marta' },
+  ibague   : { z0: 12, x0:   1192, y0:   1997, space: 'SW', title: 'Ibagué' },
+  manizale : { z0: 13, x0:   2377, y0:   3980, space: 'NW', title: 'Manizales' },
+  pasto    : { z0: 13, x0:   2337, y0:   4068, space: 'SW', title: 'Pasto' },
+  villavo  : { z0: 13, x0:   2420, y0:   4001, space: 'SW', title: 'Villavicencio' },
+  monteria : { z0: 13, x0:   2369, y0:   3896, space: 'SE', title: 'Montería' },
+  armenia  : { z0: 14, x0:   4748, y0:   7985, space: 'SE', title: 'Armenia' },
+  neiva    : { z0: 14, x0:   4765, y0:   8058, space: 'SW', title: 'Neiva' },
+  popayan  : { z0: 13, x0:   2353, y0:   4040, space: 'SW', title: 'Popayán' },
+  valledup : { z0: 13, x0:   2429, y0:   3856, space: 'NE', title: 'Valledupar' },
+  riohacha : { z0: 14, x0:   4873, y0:   7663, space: 'SW', title: 'Riohacha' },
 };
 
 let AppDiv, BoardDiv, MapButton, HelpButton, MapDialog, MapList, HelpDialog, CloseButton;
